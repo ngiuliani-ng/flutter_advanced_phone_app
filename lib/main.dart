@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'package:url_launcher/url_launcher.dart';
+
 void main() {
   runApp(App());
 }
@@ -35,6 +37,48 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  /// Il metodo [canLaunch] verifica che l'URL specificato può essere gestito da qualche app installata sul dispositivo.
+  /// Su Android, API ≥ 30, il metodo [canLaunch] restituirà "false" quando la configurazione di visibilità richiesta non è
+  /// stata fornità nel file "AndroidManifest.xml".
+  /// [Managing Package Visibility](https://developer.android.com/training/basics/intents/package-visibility#intent-signature)
+  /// [Android Manifest Example](https://github.com/flutter/flutter/issues/63727#issuecomment-736120631)
+
+  void onPhoneClick() async {
+    final scheme = "tel";
+    final phone = "+39 389 665 6249";
+    final url = "$scheme:$phone";
+
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      print("Error: onPhoneClick");
+    }
+  }
+
+  void onEmailClick() async {
+    final scheme = "mailto";
+    final email = "info@ngiuliani.com";
+    final subject = "Email from Flutter App - Fudeo Advanced";
+    final body = "Hi, What's up?";
+    final url = "$scheme:$email?subject=$subject&body=$body";
+
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      print("Error: onEmailClick");
+    }
+  }
+
+  void onLinkClick() async {
+    final url = "https://ngiuliani.com/";
+
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      print("Error: onLinkClick");
+    }
+  }
+
   Widget appBar() {
     return AppBar(
       leading: Center(
@@ -59,15 +103,15 @@ class _HomePageState extends State<HomePage> {
       actions: [
         IconButton(
           icon: Icon(Icons.phone),
-          onPressed: () {},
+          onPressed: onPhoneClick,
         ),
         IconButton(
           icon: Icon(Icons.email),
-          onPressed: () {},
+          onPressed: onEmailClick,
         ),
         IconButton(
           icon: Icon(Icons.link),
-          onPressed: () {},
+          onPressed: onLinkClick,
         ),
       ],
     );
