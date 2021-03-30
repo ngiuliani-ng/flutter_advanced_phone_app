@@ -14,6 +14,7 @@
             <data android:mimeType="*/*"/>
           </intent>
         </queries>
+        <uses-permission android:name="android.permission.CAMERA"/>
    <application
         android:label="flutter_advanced_phone_app"
         android:icon="@mipmap/ic_launcher">

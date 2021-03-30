@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:url_launcher/url_launcher.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 void main() {
   runApp(App());
@@ -76,6 +77,12 @@ class _HomePageState extends State<HomePage> {
       await launch(url);
     } else {
       print("Error: onLinkClick");
+    }
+  }
+
+  void onPhotoClick() async {
+    if (await Permission.camera.request().isGranted) {
+      print("Camera: Permission Granted");
     }
   }
 
@@ -207,7 +214,7 @@ class _HomePageState extends State<HomePage> {
     return FloatingActionButton(
       child: Icon(Icons.camera_alt),
       backgroundColor: Colors.white,
-      onPressed: () {},
+      onPressed: onPhotoClick,
       elevation: 0,
     );
   }
