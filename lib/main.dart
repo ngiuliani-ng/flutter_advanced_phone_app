@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:url_launcher/url_launcher.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:image_picker/image_picker.dart';
 
 void main() {
   runApp(App());
@@ -30,6 +33,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  /// Questo Provider ci permette di scegliere una foto/video dalla galleria
+  /// o di scattere una foto/video con la fotocamera.
+  final ImagePicker imagePicker = ImagePicker();
+
+  /// Lista di path delle foto scattate con la fotocamera.
+  final List<String> photosPath = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,7 +92,12 @@ class _HomePageState extends State<HomePage> {
 
   void onPhotoClick() async {
     if (await Permission.camera.request().isGranted) {
-      print("Camera: Permission Granted");
+      final pickedImage = await imagePicker.getImage(source: ImageSource.camera);
+      setState(() {
+        photosPath.add(pickedImage.path);
+      });
+    } else {
+      print("Permission Denied: onPhotoClick");
     }
   }
 
@@ -137,14 +152,32 @@ class _HomePageState extends State<HomePage> {
     return Expanded(
       child: ListView.builder(
         reverse: true,
-        itemCount: 1,
-        itemBuilder: (context, index) => sampleMessage(),
+        itemCount: photosPath.length,
+        itemBuilder: (context, index) => sampleMessage(imagePath: photosPath[index]),
       ),
     );
   }
 
-  Widget sampleMessage() {
-    return Container();
+  Widget sampleMessage({
+    @required String imagePath,
+  }) {
+    return Align(
+      alignment: Alignment.centerRight,
+      child: Container(
+        width: 250,
+        height: 200,
+        margin: EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          image: DecorationImage(
+            image: FileImage(
+              File(imagePath),
+            ),
+            fit: BoxFit.cover,
+          ),
+        ),
+      ),
+    );
   }
 
   Widget privateMode() {

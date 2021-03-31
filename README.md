@@ -11,6 +11,10 @@ A new Flutter application. Fudeo exercises.
         - Argument: **Grafica App**
     - Lesson 5.3: https://bit.ly/2O0uYen
         - Argument: **Link Esterni**
-    - Lesson: https://bit.ly/3dgYV2D
+    - Lesson 5.4: https://bit.ly/3dgYV2D
         - Argument: **Permessi**
             - Screenshot App: Screenshot\Screenshot_1617074633.png - Permission Request
+    - Lesson 5.5: https://bit.ly/2Phpb4R
+        - Argument: **Fotocamera**
+            - Screenshot App: Screenshot\Screenshot_1617076971.png - Camera
+            - Screenshot App: Screenshot\Screenshot_1617166479.png - Sample Message
