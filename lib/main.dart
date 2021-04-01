@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:sensors/sensors.dart';
 
 void main() {
   runApp(App());
@@ -38,7 +39,30 @@ class _HomePageState extends State<HomePage> {
   final ImagePicker imagePicker = ImagePicker();
 
   /// Lista di path delle foto scattate con la fotocamera.
-  final List<String> photosPath = [];
+  List<String> photosPath = [];
+  bool privateModeStatus = false;
+
+  @override
+  void initState() {
+    super.initState();
+    startgyroscopeEvents();
+  }
+
+  void startgyroscopeEvents() {
+    gyroscopeEvents.listen((event) async {
+      if (event.y.abs() > 8) {
+        setState(() {
+          privateModeStatus = true;
+        });
+
+        await Future.delayed(Duration(seconds: 5));
+
+        setState(() {
+          privateModeStatus = false;
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -142,7 +166,7 @@ class _HomePageState extends State<HomePage> {
   Widget body() {
     return Column(
       children: [
-        chat(),
+        privateModeStatus ? privateMode() : chat(),
         input(),
       ],
     );

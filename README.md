@@ -18,3 +18,6 @@ A new Flutter application. Fudeo exercises.
         - Argument: **Fotocamera**
             - Screenshot App: Screenshot\Screenshot_1617076971.png - Camera
             - Screenshot App: Screenshot\Screenshot_1617166479.png - Sample Message
+    - Lesson: 5.6: https://bit.ly/2PHclwC
+        - Argument: **Sensori**
+            - Screenshot App: Screenshot\Screenshot_1617249079.png - Private Mode
